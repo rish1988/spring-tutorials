@@ -1,35 +1,43 @@
 package com.caveofprogramming.spring;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class Logger {
+	@Autowired(required=false)
 	private ConsoleWriter consoleWriter;
-	private FileWriter fileWriter;
 	
+	@Autowired
+	private FileWriter fileWriter;
+
 	public ConsoleWriter getConsoleWriter() {
 		return consoleWriter;
 	}
-	
-	@Autowired
-	public void setConsoleWriter(ConsoleWriter consoleWriter) {
-		this.consoleWriter = consoleWriter;
-	}
-	public FileWriter getFileWriter() {
+
+	public LogWriter getFileWriter() {
 		return fileWriter;
-	}
-	
-	@Autowired
-	public void setFileWriter(FileWriter fileWriter) {
-		this.fileWriter = fileWriter;
 	}
 	
 	public void writeFile(String text) {
 		fileWriter.write(text);
 	}
-	
+
 	public void writeConsole(String text) {
-		consoleWriter.write(text);
+		if (consoleWriter != null)
+			consoleWriter.write(text);
 	}
 	
+	@PostConstruct
+	public void init() {
+		System.out.println("Init");
+	}
+	
+	@PreDestroy
+	public void destroy() {
+		System.out.println("destroy");
+	}
 }

@@ -1,5 +1,8 @@
 package com.caveofprogramming.spring;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class FileWriter implements LogWriter {
 
 	@Override
